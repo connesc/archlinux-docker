@@ -1,6 +1,6 @@
-DOCKER_USER:=pierres
-DOCKER_ORGANIZATION=archlinux
-DOCKER_IMAGE:=base
+DOCKER_USER:=connesc
+DOCKER_ORGANIZATION=connesc
+DOCKER_IMAGE:=archlinux
 
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
