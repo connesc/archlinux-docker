@@ -8,7 +8,7 @@ rootfs:
 	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
 	arch-chroot $(TMPDIR) locale-gen
 	arch-chroot $(TMPDIR) pacman-key --init
-	arch-chroot $(TMPDIR) pacman-key --populate archlinux
+	arch-chroot $(TMPDIR) pacman-key --populate archlinuxarm
 	tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $(TMPDIR) -c . -f archlinux.tar
 	rm -rf $(TMPDIR)
 
