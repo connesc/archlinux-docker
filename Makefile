@@ -1,6 +1,6 @@
 DOCKER_USER:=connesc
 DOCKER_ORGANIZATION=connesc
-DOCKER_IMAGE:=archlinux
+DOCKER_IMAGE:=archlinux:amd64
 
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
