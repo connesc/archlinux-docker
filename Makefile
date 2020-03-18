@@ -20,7 +20,10 @@ rootfs:
 	tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $(TMPDIR) -c . -f archlinux.tar
 	rm -rf $(TMPDIR)
 
-docker-image: rootfs
+docker-rootfs:
+	docker run --privileged --rm -it -v "$${PWD}:/mnt" -w /mnt $(DOCKER_TAG) sh -c 'pacman -Syu --noconfirm --needed make devtools && make rootfs'
+
+docker-image:
 	docker build -t $(DOCKER_TAG) .
 
 docker-image-test: docker-image
@@ -49,4 +52,4 @@ docker-manifest-push:
 	#docker login -u $(DOCKER_USER)
 	docker push $(DOCKER_MANIFEST)
 
-.PHONY: rootfs docker-image docker-image-test ci-test docker-push docker-manifest docker-manifest-push
+.PHONY: rootfs docker-rootfs docker-image docker-image-test ci-test docker-push docker-manifest docker-manifest-push
