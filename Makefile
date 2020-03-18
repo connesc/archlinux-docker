@@ -45,11 +45,11 @@ docker-push:
 	docker push $(DOCKER_TAG)
 
 docker-manifest:
-	docker manifest create -a $(DOCKER_MANIFEST) $(DOCKER_MANIFEST_TAGS)
+	docker manifest create $(DOCKER_MANIFEST) $(DOCKER_MANIFEST_TAGS)
 	for ARCH in $(DOCKER_MANIFEST_ARCHS); do docker manifest annotate --arch $${ARCH} $(DOCKER_MANIFEST) $(DOCKER_IMAGE):$${ARCH}; done
 
 docker-manifest-push:
 	#docker login -u $(DOCKER_USER)
-	docker push $(DOCKER_MANIFEST)
+	docker manifest push --purge $(DOCKER_MANIFEST)
 
 .PHONY: rootfs docker-rootfs docker-image docker-image-test ci-test docker-push docker-manifest docker-manifest-push
