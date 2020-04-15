@@ -10,6 +10,10 @@ DOCKER_TAG:=$(DOCKER_IMAGE):$(DOCKER_ARCH)
 DOCKER_MANIFEST:=$(DOCKER_IMAGE):latest
 DOCKER_MANIFEST_TAGS:=$(DOCKER_MANIFEST_ARCHS:%=$(DOCKER_IMAGE):%)
 
+DEFAULT_MIRROR:=50.116.36.110
+EU_MIRROR:=136.243.50.136
+MIRROR:=$(EU_MIRROR)
+
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
 	env -i pacstrap -C /usr/share/devtools/pacman-extra.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
@@ -21,7 +25,7 @@ rootfs:
 	rm -rf $(TMPDIR)
 
 docker-rootfs:
-	docker run --privileged --rm -it -v "$${PWD}:/mnt" -w /mnt $(DOCKER_TAG) sh -c 'pacman -Syu --noconfirm --needed make devtools && make rootfs'
+	docker run --privileged --rm -it -v "$${PWD}:/mnt" -w /mnt --add-host mirror.archlinuxarm.org:$(MIRROR) $(DOCKER_TAG) sh -c 'pacman -Syu --noconfirm --needed make devtools && make rootfs'
 
 docker-image:
 	docker build -t $(DOCKER_TAG) .
