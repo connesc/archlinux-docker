@@ -12,7 +12,7 @@ DOCKER_MANIFEST_TAGS:=$(DOCKER_MANIFEST_ARCHS:%=$(DOCKER_IMAGE):%)
 
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
-	env -i pacstrap -C /usr/share/devtools/pacman.conf.d/extra.conf -c -G -M $(TMPDIR) base
+	env -i pacstrap -C /usr/share/devtools/pacman.conf.d/extra.conf -c -G -M $(TMPDIR)
 	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
 	arch-chroot $(TMPDIR) update-ca-trust
 	arch-chroot $(TMPDIR) pacman-key --init
