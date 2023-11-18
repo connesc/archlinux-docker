@@ -12,11 +12,11 @@ DOCKER_MANIFEST_TAGS:=$(DOCKER_MANIFEST_ARCHS:%=$(DOCKER_IMAGE):%)
 
 rootfs:
 	$(eval TMPDIR := $(shell mktemp -d))
-	env -i pacstrap -C /usr/share/devtools/pacman-extra.conf -c -d -G -M $(TMPDIR) $(shell cat packages)
+	env -i pacstrap -C /usr/share/devtools/pacman.conf.d/extra.conf -c -G -M $(TMPDIR) base
 	cp --recursive --preserve=timestamps --backup --suffix=.pacnew rootfs/* $(TMPDIR)/
-	arch-chroot $(TMPDIR) locale-gen
+	arch-chroot $(TMPDIR) update-ca-trust
 	arch-chroot $(TMPDIR) pacman-key --init
-	arch-chroot $(TMPDIR) pacman-key --populate archlinux
+	arch-chroot $(TMPDIR) pacman-key --populate
 	tar --numeric-owner --xattrs --acls --exclude-from=exclude -C $(TMPDIR) -c . -f archlinux.tar
 	rm -rf $(TMPDIR)
 
