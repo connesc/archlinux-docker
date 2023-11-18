@@ -21,7 +21,7 @@ rootfs:
 	rm -rf $(TMPDIR)
 
 docker-rootfs:
-	docker run --privileged --rm -it -v "$${PWD}:/mnt" -w /mnt $(DOCKER_TAG) sh -c 'pacman -Syu --noconfirm --needed make devtools && make rootfs'
+	docker run --privileged --rm -it -v "$${PWD}:/mnt" -w /mnt $(DOCKER_TAG) sh -c 'pacman-key --init && pacman -Sy --noconfirm archlinux-keyring && pacman -Su --noconfirm --needed make devtools && make rootfs'
 
 docker-image:
 	docker build -t $(DOCKER_TAG) .
